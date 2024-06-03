@@ -1,0 +1,594 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block title %} My Dashboard {% endblock title %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/Dashboard.css' %}">
+
+{% endblock css %}
+
+{% block searchbar %}
+{% endblock searchbar %}
+{% block content %}
+<div class="wrap">
+
+
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
+
+
+
+
+
+    <div class="application-container">
+        <div class="tab-header">
+            <button class="tab-btn active" data-tab="my-applications">My Applications</button>
+            <button class="tab-btn" data-tab="gig-requests">Gig Requests</button>
+            <button class="tab-btn" data-tab="ongoing-gigs">Ongoing Gigs</button>
+            <button class="tab-btn" data-tab="previous-gigs">Previous Gigs</button>
+        </div>
+
+        <div class="tab-content">
+            <div class="tab-pane active" id="my-applications">
+                <div class="table-data">
+                    <div class="order">
+                        <div class="head">
+                            <h3> My Applications</h3>
+
+                            <input type="search" placeholder="Search..." id="search-input">
+                            <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+
+                        </div>
+                        <div class="filters-for-this-page" style="padding: 2%;">
+                            <button id="filter-btn" type="submit" class="search-btn"><i
+                                    class='bx bx-filter'></i></button>
+                        </div>
+                        <!-- Table  -->
+                        <table id="my-applications-table">
+                            <!-- Table Headers.  -->
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Date Applied</th>
+                                    <th>Gig title</th>
+                                    <th>Gig Id</th>
+                                    <th>Client</th>
+                                    <th>Genre</th>
+                                    <th>Event Date</th>
+                                    <th>Application Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-body">
+                                {% for application in applications %}
+
+                                <tr>
+                                    <td>{{ application.pk }}</td>
+                                    <td>{{ application.date_applied }}</td>
+                                    <td>{{ application.gig.title }}</td>
+                                    <td>{{ application.gig.id }}</td>
+                                    <td>{{ application.gig.client }}</td>
+                                    <td>{{ application.gig.genre }}</td>
+                                    <td>{{ application.gig.event_date|date:"Y-m-d" }}</td>
+                                    {% if application.status == "Done" %}
+                                    <td><span class="status completed">{{ application.status }}</span></td>
+                                    {% elif application.status == "Accepted" %}
+                                    <td><span class="status submitted">{{ application.status }}</span></td>
+                                    {% elif application.status == "Submitted" %}
+                                    <td><span class="status process ">{{ application.status }}</span></td>
+                                    {% else %}
+                                    <td><span class="status pending">{{ application.status }}</span></td>
+                                    {% endif %}
+                                    <td>
+                                        {% if application.status == 'Done' %}
+                                        <button hidden> </button>
+                                        {%else%}
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="applicationId" value="{{ application.id }}">
+                                            <input type="hidden" name="withdraw_application" value="True">
+                                            <button type="submit" class="gig-btn "
+                                                style=" width: 100%; background-color: firebrick;">Withdraw
+                                            </button>
+                                        </form>
+                                        {% endif %}
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            </ul>
+
+
+
+
+
+
+
+
+            <div class="tab-pane" id="gig-requests">
+                <h2>Gigs Requests</h2>
+                <div class="table-data">
+                    <div class="order">
+                        <div class="head">
+
+                            <input type="search" placeholder="Search..." id="search-input2">
+                            <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                            <button id="filter-btn" type="submit" class="search-btn"><i
+                                    class='bx bx-filter'></i></button>
+                        </div>
+                        <table id="accepted-applications-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Gig Id</th>
+                                    <th>Gig Title</th>
+                                    <th>Client Name</th>
+                                    <th>Client Phone</th>
+                                    <th>Client Email</th>
+                                    <th>Event Date</th>
+                                    <th>Gig Pay</th>
+                                    <th>Application Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-body">
+                                {% for application in accepted_applications %}
+
+                                <tr>
+                                    <td>{{ application.gig.id}}</td>
+                                    <td>{{ application.gig.title }}</td>
+                                    <td>{{ application.client.user.username }}</td>
+                                    <td>{{ application.client.phone }}</td>
+                                    <td>{{ application.client.user.email }}</td>
+                                    <td>{{ application.gig.event_date|date:"Y-m-d" }}</td>
+                                    <td>{{ application.gig.budget }}</td>
+                                    <td><span class="status submitted">{{ application.status }}</span></td>
+                                    <td>
+                                        <form method="post" class="accept-offer-form" onsubmit="return false;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="applicationId" value="{{ application.id }}">
+                                            <input type="hidden" name="accept_gig" value="True">
+                                            <button type="submit" class="gig-btn accept-offer-btn"
+                                                style="padding: 0% 10%;">Accept Offer</button>
+                                        </form>
+                                    </td>
+                                </tr>
+
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="current-gig ">
+        <ul>
+            {% for gig in gigs %}
+            <li>
+                <div class="gig-item">
+                    <h4>Title: {{ gig.title }}</h4>
+                    <h4>Date: {{ gig.date_created }}</h4>
+                    <h4>Deadline: {{ gig.Deadline }}</h4>
+                    <h4>status: {{ gig.status }}</h4>
+                    <h4>Applications: {{ application.i }}</h4>
+                    <button class="popupbtn-close" onclick="hidePopup_One()"><i class="bx bx-x"></i></button>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div> -->
+            <div class="tab-pane" id="ongoing-gigs">
+                <h2>Ongoing Gigs</h2>
+                <div class="table-data">
+                    <div class="order">
+                        <div class="head">
+
+
+                            <input type="search" placeholder="Search..." id="search-input">
+                            <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                            <button id="filter-btn" type="submit" class="search-btn"><i
+                                    class='bx bx-filter'></i></button>
+                        </div>
+                        <table id="ongoing-gigs-table">
+                            <thead>
+                                <tr>
+                                    <th>Gig Title</th>
+                                    <th>Event Date</th>
+                                    <th>Client Name</th>
+                                    <th>Client Phone</th>
+                                    <th>Genre</th>
+                                    <th>Status</th>
+                                    <!-- <th>Action</th> -->
+                                </tr>
+                            </thead>
+                            <tbody class="table-body">
+                                {% for ongoing_hire in ongoing_hires %}
+                                <tr>
+                                    <td>{{ ongoing_hire.gig }}</td>
+                                    <td>{{ ongoing_hire.gig.event_date|date:"Y-m-d" }}</td>
+                                    <td>{{ ongoing_hire.client.user.first_name }}</td>
+                                    <td>{{ ongoing_hire.client.phone }}</td>
+                                    <td>{{ ongoing_hire.gig.genre }}</td>
+                                    <td><span class="status process">{{ ongoing_hire.completion_status }}</span>
+                                    </td>
+                                    <!-- <td>
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="successful_hireId" value="{{ ongoing_hire.id }}">
+                                            <input type="hidden" name="mark_complete" value="True">
+                                            <button class="gig-btn" style="width:100%;" type="submit">Mark as
+                                                Complete, Request Pay</button>
+                                        </form>
+                                    </td> -->
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="tab-pane" id="previous-gigs">
+                <h2>My Previous Gigs</h2>
+                <div class="table-data">
+                    <div class="order">
+                        <div class="head">
+
+                            <input type="search" placeholder="Search..." id="search-input">
+                            <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                            <button id="filter-btn" type="submit" class="search-btn"><i
+                                    class='bx bx-filter'></i></button>
+                        </div>
+                        <table id="previous-gigs-table">
+                            <thead>
+                                <tr>
+                                    <th>Gig Title</th>
+                                    <th>Event Date</th>
+                                    <th>Client Name</th>
+                                    <th>Client Phone</th>
+                                    <th>Genre</th>
+                                    <th>Pay</th>
+                                    <th>Paid</th>
+                                    <th>Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody class="table-body">
+                                {% for completed_gig in completed_gigs %}
+                                <tr>
+                                    <td>{{ completed_gig.gig }}</td>
+                                    <td>{{ completed_gig.gig.event_date|date:"Y-m-d" }}</td>
+                                    <td>{{ completed_gig.client.user.first_name }}</td>
+                                    <td>{{ completed_gig.client.phone }}</td>
+                                    <td>{{ completed_gig.gig.genre }}</td>
+                                    <td>{{ completed_gig.gig.budget }}</td>
+                                    <td>{{ completed_gig.gig.budget }}</td>
+                                    <td> </td>
+
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="tab-pane" id="ongoing-gigs">
+        <h2>Ongoing Gigs</h2>
+        <div class="table-data">
+            <div class="order">
+                <div class="head">
+
+                    <a href="#" class="btn-download">
+                        <i class='bx bxs-cloud-download'></i>
+                        <span class="text">Download PDF</span>
+                    </a>
+                    <input type="search" placeholder="Search..." id="search-input">
+                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                    <button id="filter-btn" type="submit" class="search-btn"><i class='bx bx-filter'></i></button>
+                </div>
+                <table id="ongoing-gigs-table">
+                    <thead>
+                        <tr>
+                            <th>Gig Title</th>
+                            <th>Event Date</th>
+                            <th>Client Name</th>
+                            <th>Client Phone</th>
+                            <th>Genre</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-body">
+                        {% for ongoing_hire in ongoing_hires %}
+                        <tr>
+                            <td>{{ ongoing_hire.gig }}</td>
+                            <td>{{ ongoing_hire.gig.event_date|date:"Y-m-d" }}</td>
+                            <td>{{ ongoing_hire.client.user.first_name }}</td>
+                            <td>{{ ongoing_hire.client.phone }}</td>
+                            <td>{{ ongoing_hire.gig.genre }}</td>
+                            <td><span class="status process">{{ ongoing_hire.completion_status }}</span>
+                            </td>
+                            <td>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="successhire_Id"
+                                        value="{{ ongoing_hire.id }}">
+                                    <input type="hidden" name="mark_complete" value="True">
+                                    <button class="hire-btn" style="width:100%; " type="submit">Mark as Complete,
+                                        Request Payment</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> -->
+
+    <script>
+        function showPopup_One() {
+            document.getElementById("current-gig").style.display = "block";
+        }
+
+        function hidePopup_One() {
+            document.getElementById("current-gig").style.display = "none";
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var searchInput = document.getElementById('search-input');
+            var userTable = document.getElementById('my-applications-table');
+
+            searchInput.addEventListener('input', function () {
+                var query = searchInput.value.toLowerCase().trim();
+
+                Array.from(userTable.getElementsByTagName('tr')).forEach(function (row) {
+                    var cells = row.getElementsByTagName('td');
+                    var matchFound = false;
+
+                    for (var i = 0; i < cells.length; i++) {
+                        var cellText = cells[i].textContent.toLowerCase();
+                        if (cellText.includes(query)) {
+                            matchFound = true;
+                            break;
+                        }
+                    }
+
+                    if (matchFound) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+
+        tabBtns.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons and panes
+                tabBtns.forEach(btn => btn.classList.remove('active'));
+                tabPanes.forEach(pane => pane.classList.remove('active'));
+
+                // Add active class to the clicked button and corresponding pane
+                btn.classList.add('active');
+                tabPanes[index].classList.add('active');
+            });
+        });
+    </script>
+    <script>
+
+        function parseDate(dateString) {
+            // Assuming your date format is 'YYYY-MM-DD'
+            const [year, month, day] = dateString.split('-');
+            return new Date(year, month - 1, day);
+        }
+
+        const searchInput = document.getElementById('search-input');
+        const filterBtn = document.getElementById('filter-btn');
+        const tableBody = document.querySelector('#my-applications-table tbody');
+        const tableRows = tableBody.querySelectorAll('tr');
+
+        // Add filter form elements
+        const filterForm = document.createElement('div');
+        filterForm.classList.add('filter-form');
+        filterForm.innerHTML = `
+    <label for="client-filter">Client:</label>
+    <input type="text" id="client-filter" placeholder="Filter by client">
+
+    <label for="gig-title-filter">Gig Title:</label>
+    <input type="text" id="gig-title-filter" placeholder="Filter by gig title">
+
+    <label for="event-date-start">Event Date Range:</label>
+    <input type="date" id="event-date-start" placeholder="Start date">
+    <input type="date" id="event-date-end" placeholder="End date">
+
+    <label for="date-applied-start">Date Applied Range:</label>
+    <input type="date" id="date-applied-start" placeholder="Start date">
+    <input type="date" id="date-applied-end" placeholder="End date">
+
+    <label for="status-filter">Status:</label>
+    <select id="status-filter">
+        <option value="">All</option>
+        <option value="Done">Done</option>
+        <option value="Accepted">Accepted</option>
+        <option value="Pending">Pending</option>
+    </select>
+
+    <button type="button" id="apply-filter">Apply Filter</button>
+`;
+        filterBtn.parentNode.insertBefore(filterForm, filterBtn.nextSibling);
+
+
+
+        const applyFilterBtn = document.getElementById('apply-filter');
+        const clientFilter = document.getElementById('client-filter');
+        const gigTitleFilter = document.getElementById('gig-title-filter');
+        const eventDateStart = document.getElementById('event-date-start');
+        const eventDateEnd = document.getElementById('event-date-end');
+        const dateAppliedStart = document.getElementById('date-applied-start');
+        const dateAppliedEnd = document.getElementById('date-applied-end');
+        const statusFilter = document.getElementById('status-filter');
+
+        applyFilterBtn.addEventListener('click', () => {
+            const clientValue = clientFilter.value.toLowerCase();
+            const gigTitleValue = gigTitleFilter.value.toLowerCase();
+            const eventStartDate = new Date(eventDateStart.value);
+            const eventEndDate = new Date(eventDateEnd.value);
+            const dateAppliedStartDate = parseDate(dateAppliedStart.value);
+            const dateAppliedEndDate = parseDate(dateAppliedEnd.value);
+            const statusValue = statusFilter.value;
+
+            tableRows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const client = cells[4].textContent.toLowerCase();
+                const gigTitle = cells[2].textContent.toLowerCase();
+                const eventDate = parseDate(cells[6].textContent);
+                const dateApplied = parseDate(cells[1].textContent);
+                const status = cells[7].textContent.trim(); // Trim whitespace from status text
+
+                let shouldShow = true;
+
+                if (clientValue && !client.includes(clientValue)) {
+                    shouldShow = false;
+                }
+
+                if (gigTitleValue && !gigTitle.includes(gigTitleValue)) {
+                    shouldShow = false;
+                }
+
+                if (eventDateStart.value && (eventDate < eventStartDate || eventDate > eventEndDate)) {
+                    shouldShow = false;
+                }
+
+                if (dateAppliedStart.value && (dateApplied < dateAppliedStartDate || dateApplied > dateAppliedEndDate)) {
+                    shouldShow = false;
+                }
+
+                if (statusValue && status !== statusValue) {
+                    shouldShow = false;
+                }
+
+                row.style.display = shouldShow ? 'table-row' : 'none';
+            });
+        });
+
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            tableRows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                let shouldShow = false;
+                cells.forEach(cell => {
+                    if (cell.textContent.toLowerCase().includes(searchTerm)) {
+                        shouldShow = true;
+                    }
+                });
+                row.style.display = shouldShow ? 'table-row' : 'none';
+            });
+        });
+
+    </script>
+
+    <script>
+        //script to add pdf download functionality
+        const downloadPDFBtn = document.querySelector('.btn-download');
+        const searchinput = document.getElementById('search-input');
+        const tablebody = document.querySelector('#my-applications-table tbody');
+        const tablerows = tablebody.querySelectorAll('tr');
+        downloadPDFBtn.addEventListener('click', () => {
+            const doc = new jsPDF();
+            let yPos = 10;
+
+            // Add table headers
+            const headers = ['Id', 'Date Applied', 'Gig title', 'Gig Id', 'Client', 'Genre', 'Event Date', 'Status'];
+            headers.forEach(header => {
+                doc.setFontSize(12);
+                doc.text(header, 10, yPos);
+                yPos += 10;
+            });
+            yPos += 5;
+
+            // Add table rows
+            tablerows.forEach(row => {
+                if (row.style.display !== 'none') {
+                    const cells = row.querySelectorAll('td');
+                    cells.forEach(cell => {
+                        doc.setFontSize(5);
+                        doc.text(cell.textContent, 10, yPos);
+                        yPos += 8;
+                    });
+                    yPos += 2;
+                }
+            });
+
+            doc.save('my-applications.pdf');
+        });
+    </script>
+    <script>
+
+        const Searchinput = document.getElementById('search-input2');
+        const Tablebody = document.querySelector('#accepted-applications-table tbody');
+        const Tablerows = Tablebody.querySelectorAll('tr');
+
+        searchInput.addEventListener('input', () => {
+            const searchterm = searchInput.value.toLowerCase();
+            Tablerows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                let shouldShow = false;
+                cells.forEach(cell => {
+                    if (cell.textContent.toLowerCase().includes(searchterm)) {
+                        shouldShow = true;
+                    }
+                });
+                row.style.display = shouldShow ? 'table-row' : 'none';
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const acceptOfferBtns = document.querySelectorAll('.accept-offer-btn');
+
+            acceptOfferBtns.forEach((btn) => {
+                btn.addEventListener('click', (event) => {
+                    const confirmed = confirm('Are you sure you want to accept this offer? By accepting this offer, you are legally bound to fulfill your musical responsibilities as per the terms stipulated in the job offer.');
+                    if (confirmed) {
+                        const form = event.target.closest('.accept-offer-form');
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+
+    {% endblock content %}

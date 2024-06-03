@@ -1,0 +1,549 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Gigs Page {% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/C-Gigs.css' %}">
+{% endblock css %}
+
+
+
+
+{% block searchbar %}
+{% endblock searchbar %}
+
+{% block content %}
+
+{% if messages %}
+<div class="messages"
+    style="position: fixed; top: 2%; left: 10%; background-color: rgba(166, 235, 229,0.8); z-index: 1000; padding: 1%; border-radius: 15px; border: 2px solid  rgba(166, 235, 229,1); transition: ease-out 2s ;">
+    <ul>
+        <li class="messages-pd">
+
+            {% for message in messages %}
+        <li class="message_success">
+            {{ message.success }}
+        </li>
+        {% endfor %}
+        </li>
+    </ul>
+</div>
+{% endif %}
+
+
+<div class="tab-app">
+    <div class="tab">
+        <button class="tablinks active" onclick="openTab(event, 'create-gig')">Create New Gig</button>
+        <button class="tablinks " onclick="openTab(event, 'current-gig')">My Pending Gigs</button>
+        <button class="tablinks" onclick="openTab(event, 'accepted-applicants')">Accepted Applicants</button>
+        <button class="tablinks " onclick="openTab(event, 'ongoing-gigs')">Ongoing Gigs</button>
+        <button class="tablinks" onclick="openTab(event, 'completed-gigs')">Completed Gigs</button>
+
+    </div>
+
+    <!-- Create New Gig Tab -->
+    <div id="create-gig" class="tabcontent activity">
+        <!-- Your create gig content here -->
+
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <h2>Create a New Gig</h2>
+                <form id="gig-form" method="post">
+                    {% csrf_token %}
+
+                    <div class="gig-input-style title">
+                        <label>Title:</label>
+                        <input class="gig-input-style long" type="text" placeholder="Enter the title of the job"
+                            name="title" required>*
+                    </div>
+                    <br>
+                    <div class="gig-input-style">
+                        <label>Event Type:</label>
+                        <select class="gig-input-style" id="event_type" name="event_type" required>
+                            <option value="" disabled selected>Select Event Type</option>
+                            <option value="Birthday">Birthday</option>
+                            <option value="Corporate Event">Corporate Event</option>
+                            <option value="Festival">Festival</option>
+                            <option value="Graduation">Graduation</option>
+                            <option value="Wedding">Wedding</option>
+                            <option value="Concert">Concert</option>
+                            <option value="Private Party">Private Party</option>
+                            <option value="Club Event">Club Event</option>
+                            <option value="Bar Mitzvah">Bar Mitzvah</option>
+                            <option value="Bat Mitzvah">Bat Mitzvah</option>
+                            <option value="Anniversary">Anniversary</option>
+                            <option value="Charity Event">Charity Event</option>
+                            <option value="Holiday Party">Holiday Party</option>
+                            <option value="Awards Ceremony">Awards Ceremony</option>
+                            <option value="Reception">Reception</option>
+                            <option value="School Event">School Event</option>
+                            <option value="Fundraiser">Fundraiser</option>
+                            <option value="Fair">Fair</option>
+                            <option value="Conference">Conference</option>
+                            <option value="Community Event">Community Event</option>
+                            <option value="Religious Event">Religious Event</option>
+                            <option value="Cruise Ship Event">Cruise Ship Event</option>
+                            <option value="Sporting Event">Sporting Event</option>
+                            <option value="Art Gallery Opening">Art Gallery Opening</option>
+                            <option value="Film Premiere">Film Premiere</option>
+                            <option value="Book Launch">Book Launch</option>
+                            <option value="Trade Show">Trade Show</option>
+                            <option value="Political Rally">Political Rally</option>
+                            <option value="Protest">Protest</option>
+
+                            <!-- Add more options here -->
+                        </select>
+                    </div>
+                    <br>
+                    <div class="gig-input-style">
+                        <label>Professional category:</label>
+                        <select name="Profession_category" required>*
+                            <option name="">Select a category</option>
+                            <option name="Singer">Singer</option>
+                            <option name="Songwriter">Songwriter</option>
+                            <option name="Producer">Producer</option>
+                            <option name="Vocalist">Vocalist</option>
+                            <option name="Band">Band</option>
+                            <option name="Instrumentalist">Instrumentalist</option>
+                            <option name="Sound-engineer">Sound Engineer</option>
+                            <option name="Music-educator">Music Educator</option>
+                            <option name="Folk-traditional">Folk and Traditional</option>
+                            <option name="DJ">DJ</option>
+                            <option name="Cover-band">Cover Band</option>
+                            <!---- I will add more options here as needed ---->
+                        </select>
+                    </div>
+                    <br>
+                    <div class="gig-input-style">
+                        <label>Description:*</label>
+                        <textarea
+                            placeholder="A short Description of the job you're posting. Time,Place,type of event...etc"
+                            name="description" required></textarea>
+                    </div>
+                    <br>
+                    <div class="gig-input-style">
+                        <label>Budget:</label>
+                        <input class="gig-input-style" type="number" placeholder="amount" name="budget"
+                            pattern="^([1-9]\d{2,4}|[1-9]\d{5}|100000)$" required>*
+                    </div>
+                    <br>
+                    <div class="gig-input-style">
+                        <label>Event Venue:</label>
+                        <input type="text" placeholder="Example: Ruiru Kimbo, Kiambu." name="location" required>*
+                    </div>
+                    <br>
+                    <div class="gig-input-style">
+                        <label>Dry Run Requirement:</label>
+                        <select name="dry-run-requirement" required>
+                            <option value="">Choose one option</option>
+                            <option value="Yes">Yes(Paid Separate)</option>
+                            <option value="No">Yes(No payment)</option>
+                            <option value="Full-after-job">NO</option>
+                            <option value="Negotiable">To Be Determined</option>
+                        </select>
+                    </div>
+                    <br>
+
+                    <div class="gig-input-style">
+                        <label>Instruments Policy:</label>
+                        <select name="event_policy" required>
+                            <option name="">Select a category</option>
+                            <option value="Instruments-provided">100%: Instruments-provided</option>
+                            <option value="Come with yours">Come with yours</option>
+                            <option value="Negotiable">Negotiable</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="gig-input-style">
+                        <label>Genre:</label><br>
+                        <select class="select-field" name="genres" required>
+                            <option value="Jazz">Jazz</option>
+                            <option value="Afro">Afro</option>
+                            <option value="Funk">Funk-fusion</option>
+                            <option value="Pop">Pop</option>
+                            <option value="Soul">Soul</option>
+                            <option value="Local">Local</option>
+                            <option value="Bongo">Bongo</option>
+                            <option value="Gospel">Gospel</option>
+                            <option value="Gengeton">Gengeton</option>
+                            <option value="Benga">Benga</option>
+                            <option value="Classical"> Classical</option>
+                            <option value="Rock">Rock</option>
+                            <option value="Zilizopendwa">Zilizopendwa</option>
+                            <option value="Electronic">Electronic</option>
+                            <option value="Country">Country</option>
+                            <option value="Taarab">Taarab</option>
+                            <option value=">Mugithi">Mugithi</option>
+                            <option value="Chakacha">Chakacha</option>
+                            <option value="Reggaeton">Reggaeton</option>
+                            <option value="Folk">Folk</option>
+                            <option value="Indie">Indie</option>
+                        </select>
+                    </div>
+                    <input type="hidden" id="selected-genres" name="selected-genres" value="">
+
+                    <br>
+                    <div class="gig-input-style-long">
+                        <label>Event Date:</label>
+                        <input type="datetime-local" name="event_date">
+                    </div>
+
+                    <br>
+                    <button type="submit" class="gig-det-btn">Create Gig</button>
+                </form>
+                <!-- onclick="submitForm()" -->
+            </div>
+        </div>
+
+    </div>
+
+    <!-- My Pending Gigs Tab -->
+    <div id="current-gig" class="tabcontent">
+        <!-- Your pending gigs content here -->
+
+
+        <div class="current-gig">
+            <h3>My Pending Gigs</h3>
+
+            <table class="pending-gigs-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Date Created</th>
+                        <th>Event_Date</th>
+                        <th>Status</th>
+                        <th>Applications</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for gig in gigs %}
+                    <tr>
+                        <td>{{ gig.title }}</td>
+                        <td>{{ gig.date_created|date:"Y-m-d" }}</td>
+                        <td>{{ gig.event_date|date:"Y-m-d" }}</td>
+                        <td>{{ gig.status }}</td>
+                        <td>{{ applications_count }}</td>
+                        <td>
+                            <button class="current-gig-btn" onclick="showPopup_One()">View Applications</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="application-div" id="application-div">
+
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Musician Name</th>
+                        <th>Gig Title</th>
+                        <th>Genres</th>
+                        <th>Skill Level</th>
+                        <th>Charge Rate</th>
+                        <th>Date Applied</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for application in applications %}
+                    <tr>
+                        <td>{{ application.musician.user.username }}</td>
+                        <td>{{ application.gig.title }}</td>
+                        <td>
+                            {% for genre in application.musician.genre %}
+                            {{ genre }}
+                            {% endfor %}
+                        </td>
+                        <td>{{ application.musician.skill_level }}</td>
+                        <td>{{ application.musician.charge_rate }} / {{ application.musician.charge_rate_type }}</td>
+                        <td>{{ application.date_applied|date:"Y-m-d" }}</td>
+                        <td>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="applicationId" value="{{ application.id }}">
+                                <input type="hidden" name="accept_applicant" value="True">
+                                <button class="hire-btn" type="submit">Hire Musician</button>
+                            </form>
+                            <a class="hire-btn"
+                                href="{% url 'view_musician_profile' musician_id=application.musician.id  %}"
+                                style="text-decoration: none; font-size: 13px; padding: 1%;">View Profile</a>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="applicationId" value="{{ application.id }}">
+                                <input type="hidden" name="accept_applicant" value="False">
+                                <button class="hire-btn" type="submit">Reject</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <button class="popupbtn-close" onclick="hidePopup_One()"><i class="bx bx-x"></i></button>
+        </div>
+
+
+    </div>
+
+
+    <!-- Accepted Applicants Tab -->
+    <div id="accepted-applicants" class="tabcontent">
+        <!-- Your accepted applicants content here -->
+        <div class="column3">
+            <div class="prev-gig">
+                <h3>Accepted Applicants: {{ Accepted_applications_no }} Applications <h5><i>Awaiting Musician
+                            Confirmation</i>
+                    </h5>
+                </h3>
+
+                <table class="prev-item-table">
+                    <thead>
+                        <tr>
+
+                            <th>Musician Name</th>
+                            <th>Gig Title</th>
+                            <th>Gig Date</th>
+                            <th>Skill Level</th>
+                            <th>Job Price</th>
+                            <th>Gig ID</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for accepted_application in accepted_applications %}
+                        <tr style="height: 2.5vh;">
+
+                            <td>{{ accepted_application.musician.user.first_name }}
+                                {{ accepted_application.musician.user.last_name }}</td>
+                            <td>{{ accepted_application.gig.title }}</td>
+                            <td>{{ accepted_application.gig.event_date|date:"Y-m-d" }}</td>
+                            <td>{{ accepted_application.musician.skill_level }}</td>
+                            <td>{{ accepted_application.gig.budget }}</td>
+                            <td>{{ accepted_application.gig.id }}</td>
+                            <td>{{ accepted_application.status }}</td>
+                            <td>
+                                <div class="decision-buttons" style="display: flex; gap: 5%;">
+
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="applicationId" value="{{ accepted_application.id }}">
+                                        <input type="hidden" name="cancel_gig" value="True">
+                                        <button class="hire-btn" type="submit">Reject</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Ongoing Gigs Tab -->
+    <div id="ongoing-gigs" class="tabcontent">
+        <!-- Your ongoing gigs content here -->
+
+
+        <div class="column4">
+            <div class="prev-gig">
+                <h3>Ongoing Gigs: {{ hires_count }} Applications </h3>
+
+                <ul>
+                    {% for ongoing_hire in ongoing_hires %}
+                    <li>
+                        <div class="prev-item">
+
+                            <h4>
+                                Musician:{{ ongoing_hire.musician.user.first_name }}
+                                {{ ongoing_hire.musician.user.last_name }}</h4>
+                            <h4>Title:{{ ongoing_hire.gig.title }}</h4>
+                            <h4>Date:{{ ongoing_hire.gig.event_date|date:"Y-m-d" }}</h4>
+                            <h4>Skill level:{{ ongoing_hire.musician.skill_level }}</h4>
+                            <h4>Charge Rate: {{ ongoing_hire.musician.charge_rate }}/
+                                {{ ongoing_hire.musician.charge_rate_type }}</h4>
+                            <h4>Gig Id:{{ ongoing_hire.gig.id }}</h4>
+                            <h4>Status:{{ ongoing_hire.completion_status }}</h4>
+
+                            <div class="decision-buttons" style="display: flex; gap: 5%;">
+                                <a class="hire-btn" href="" style="width: 12.5vw; text-align: center;"> Hire Musician
+                                    Again</a>
+
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="applicationId" value="{ shortlisted_applicant.id }">
+                                    <input type="hidden" name="Quit_job" value="False">
+                                    <button class="hire-btn" type="submit">Cancel Job</button>
+                                </form>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="successful_hireId" value="{{ ongoing_hire.id }}">
+                                    <input type="hidden" name="mark_complete" value="True">
+                                    <button class="hire-btn" style="width:100%;" type="submit">Mark as Complete, Make
+                                        Payment</button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Completed Gigs Tab -->
+    <div id="completed-gigs" class="tabcontent">
+        <!-- Your completed gigs content here -->
+        <div class="column4">
+            <div class="prev-gig">
+                <h3>Completed Gigs: {{ completed_gigs_count }} in total</h3>
+
+                <table class="prev-item-table">
+                    <thead>
+                        <tr>
+
+                            <th>Musician Name</th>
+                            <th>Title</th>
+                            <th>Date</th>
+                            <th>Skill Level</th>
+                            <th>Price</th>
+                            <th>Gig ID</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for completed_gig in completed_gigs %}
+                        <tr>
+
+                            <td>{{ completed_gig.musician.user.username }}</td>
+                            <td>{{ completed_gig.gig.title }}</td>
+                            <td>{{ completed_gig.gig.event_date|date:"Y-m-d" }}</td>
+                            <td>{{ completed_gig.musician.skill_level }}</td>
+                            <td>Ksh.{{ completed_gig.gig.budget }}
+                            </td>
+                            <td>{{ completed_gig.gig.id }}</td>
+                            <td>{{ completed_gig.completion_status }}</td>
+                            <td>
+                                <div class="decision-buttons" style="display: flex; gap: 5%;">
+                                    <a class="hire-btn" href="" style="width: 8.5vw; text-align: center;"> Hire
+                                        Again</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+<!-- Div to show shortlisted applicants -->
+
+
+<!-- Div to -->
+
+
+
+
+
+
+
+
+<script>
+    //function for the footer FB&IG links to open on new pages.
+    function function1() {
+        window.location.href = "https://www.facebook.com/";
+    }
+
+    function function2() {
+        window.location.href = "https://www.instagram.com/";
+    }
+
+    function openTab(evt, tabName) {
+        // Declare all variables
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the current tab, and add an "active" class to the button that opened the tab
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    function showPopup() {
+        document.getElementById("popup").style.display = "block";
+    }
+
+    function hidePopup() {
+        document.getElementById("popup").style.display = "none";
+    }
+
+    function showPopup_One() {
+        document.getElementById("application-div").style.display = "block";
+    }
+
+    function hidePopup_One() {
+        document.getElementById("application-div").style.display = "none";
+    }
+
+
+    let selectedOptions = [];
+
+    function updateSelectedOptions() {
+        const selectElement = document.getElementById('genres');
+        const options = selectElement.options;
+
+        selectedOptions = [];
+
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].selected) {
+                selectedOptions.push(options[i].value);
+            }
+        }
+
+        for (let i = 0; i < options.length; i++) {
+            options[i].selected = selectedOptions.includes(options[i].value);
+        }
+    }
+
+    // function submitForm() {
+    //     // Set the value of the hidden field
+    //     document.getElementById('selected-genres').value = selectedOptions.join(',');
+
+    //     // Submit the form
+    //     const form = document.getElementById('gig-form');
+    //     form.submit();
+    // }
+
+</script>
+
+
+
+
+{% endblock content %}

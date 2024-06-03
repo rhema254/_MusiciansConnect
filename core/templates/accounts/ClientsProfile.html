@@ -1,0 +1,127 @@
+{% extends 'baseprofiles.html' %}
+
+{% load static %}
+
+
+
+{% block content %}
+<!-- ===== ===== Timeline & About Sections ===== ===== -->
+
+
+<section class="timeline_about card">
+    <div class="tabs">
+        <ul>
+            <li class="basic-description" onclick="openTab(event, 'basic-description-content')">
+                <i class="ri-eye-fill ri"></i>
+                <span>Clients's Bio</span>
+            </li>
+            <li class="hire-me-details active" onclick="openTab(event, 'hire-me-details-content')">
+                <i class="ri-user-3-fill ri"></i>
+                <span>Organisation's Details</span>
+            </li>
+            <li class="samples-of-work" onclick="openTab(event, 'samples-content')">
+                <i class="ri-user-3-fill ri"></i>
+                <span>Ratings</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-content">
+        <div class="content" id="basic-description-content">
+            <!-- Basic Description content goes here -->
+            <div class="contact_Info">
+                <h1 class="heading" style="border-bottom: 2px solid #ccc ; margin-bottom: 2%;">My Bio</h1>
+                <label for="musician-bio">My Bio</label><br>
+                <textarea style="width: 90%; height:15vh; resize:none" disabled>{{ user.client.description }}</textarea>
+                <div>
+                    <h3 style="border-bottom: 2px solid #ccc ; margin-bottom: 2%;">My Skills</h3>
+                    <ul>
+                        {% for skill in skills %}
+                        <li>
+                            <p>{{ user.musician.skill }}</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="content active" id="hire-me-details-content">
+            <!-- Hire Me Details content goes here -->
+            <div class="contact_Info">
+                <h1 class="heading" style="border-bottom: 2px solid #ccc; margin-bottom: 2%;">Hire Me Details</h1>
+                <ul>
+                    <li class="phone" style="margin-bottom: 2%;">
+                        <h1 class="label">My Charge Rate: {{ user.musician.charge_rate }}/
+                            {{ user.musician.charge_rate_type }}</h1>
+                    </li>
+                    <li class="phone" style="margin-bottom: 2%;">
+                        <h1 class="label">My Payment Policy:
+                            {{ user.musician.payment_policy }}</h1>
+                    </li>
+                    <li class="phone" style="margin-bottom: 2%;">
+                        <h1 class="label">Location: {{ user.musician.location }}</h1>
+                    </li>
+                    <li class="phone" style="margin-bottom: 2%;">
+                        <h1 class="label">Instruments:{{ user.musician.instrument }}</h1>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="content" id="samples-content">
+            <div class="contact_Info">
+                <h1 class="heading" style="border-bottom: 2px solid #ccc; margin-bottom: 2%;">Samples of Work</h1>
+                <div class="uploaded_samples">
+                    <h3 class="heading">These are some of my works</h3>
+                    <div>
+                        <button type="button" onclick="showPopup_one()">Watch Video</button>
+                    </div>
+                    <!-- Add more sample_wrapper divs for each uploaded sample -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-content-popup" id="video-content-popup">
+        <div class="video-content">
+            <div class="sample_wrapper">
+                <video src="sample1.mp4" controls></video>
+            </div>
+        </div>
+        <button class="popupbtn-close" onclick="hidePopup_one()"><i class="bx bx-x"></i></button>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            // Hide all tab contents
+            var contents = document.getElementsByClassName("content");
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].style.display = "none";
+            }
+
+            // Remove "active" class from all tabs
+            var tabs = document.getElementsByClassName("tabs")[0].getElementsByTagName("li");
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+
+            // Show the selected tab content and mark the tab as active
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.classList.add("active");
+        }
+
+        function showPopup_one() {
+            document.getElementById("video-content-popup").style.display = "block";
+        }
+
+        function hidePopup_one() {
+            document.getElementById("video-content-popup").style.display = "none";
+        }
+    </script>
+</section>
+
+
+
+{% endblock content %}
+</body>
+
+</html>

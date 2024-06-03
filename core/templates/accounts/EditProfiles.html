@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Edit My Profile {% endblock title %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/EditProfiles.css' %}">
+
+
+{% endblock css %}
+
+{% block searchbar %}
+{% endblock searchbar %}
+
+
+{% block content %}
+
+<div class="bio-section">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>My Profile Details</h2>
+        <div class="profile-picture">
+            <h2>Profile Image</h2>
+
+            {% if user.musician.profile_picture %}
+            <label>{{ user.musician.profile_picture.url }}<br></label>
+            <label for="profile_pic">Update Profile Picture:</label>
+            <input type="file" id="profile_pic" name="profile_picture" accept="image/*"
+                value="{{ user.musician.profile_picture }}">
+            {% else %}
+            <label for="profile_pic">Profile Picture:</label>
+            <input type="file" id="profile_pic" name="profile_picture" accept="image/*">
+            {% endif %}
+
+            <div class="availability" id="availability-container">
+                <span>Available for hire</span>
+            </div>
+
+        </div>
+
+
+        <div class="bio-data">
+            <h3> Bio - Section </h3>
+            <h4><i> You can't edit this section</i></h4>
+            <label for="fname">First Name: {{ request.user.first_name }}</label>
+            <label for="lname">Last Name {{ request.user.last_name }}</label>
+            <label for="uname">Username: {{ request.user.username }}</label>
+            <label for="email">Email: {{ request.user.email}}</label>
+            <label for="phone_number">Phone number</label>
+            <input type="tel" id="phone_number" name="phone_number" pattern="(07\d{8}|01\d{8})"
+                placeholder="0712345678 or 0123456789" value="{{ user.musician.phone_number }}">
+            <label for="pass">password: ************</label>
+
+
+            <div class="bio-data-links">
+                <a href="{% url 'password_change' %} " class="change-pass-btn">Change password</a>
+            </div>
+
+        </div>
+
+        <div>
+            <h3> Profile Section </h3>
+
+            <div class="profile-data">
+                <label for="stage_name">Stage Name: <b>{{ request.user.username }}</b></label>
+                <label for="title">Title:</label><input type="text" id="title" name="title"
+                    value="{{ user.musician.title }}"><br>
+
+                <label for="bio">Bio:</label>
+                <textarea id="bio" name="bio" rows="4" cols="50" placeholder="Write a short description of yourself"
+                    required></textarea><br><br>
+
+                <label for="location">Location:</label><input type="text" id="location" name="location"
+                    value="{{ user.musician.location }}" required><br><br>
+
+                <label for="instagram">Instagram:</label><input type="url" id="instagram" name="instagram"
+                    pattern="^(https?:\/\/)?(www\.)?instagram\.com\/[a-zA-Z0-9_]+$"
+                    placeholder="https://www.instagram.com/" value="{{ user.musician.instagram }}"><br><br>
+
+                <label for="facebook">Facebook:</label><input type="url" id="facebook" name="facebook"
+                    pattern="^(https?:\/\/)?(www\.)?facebook\.com\/[a-zA-Z0-9_]+$"
+                    placeholder="https://www.facebook.com/" value="{{ user.musician.facebook }}"><br><br>
+
+            </div>
+
+            <div class="profile-data">
+                <h3>Work Section</h3>
+
+
+                <label for="Genres">Preferred Genres:</label><select id="genres" name="genres"
+                    style="overflow-y: scroll; scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: transparent;"
+                    value="{{ user.musician.genres }}" multiple required>
+                    <option value="Jazz">Jazz</option>
+                    <option value="Afro-Pop">Afro-Pop</option>
+                    <option value="Funk-fusion">Funk-fusion</option>
+                    <option value="R&B">R&B</option>
+                    <option value="Soul">Soul</option>
+                    <option value="Local">Local</option>
+                    <option value="Rhumba">Rhumba</option>
+                    <option value="Bongo">Bongo</option>
+                    <option value="Gospel">Gospel</option>
+                    <option value="Gengeton">Gengeton</option>
+                    <option value="Benga">Benga</option>
+                    <option value="Classical">Classical</option>
+                    <option value="Rock">Rock</option>
+                    <option value="Zilizopendwa">Zilizopendwa</option>
+                    <option value="Pop">Pop</option>
+                    <option value="Electronic">Electronic</option>
+                    <option value="Country">Country</option>
+                    <option value="Taarab">Taarab</option>
+                    <option value="Mugithi">Mugithi</option>
+                    <option value="Chakacha">Chakacha</option>
+                    <option value="Reggaeton">Reggaeton</option>
+                    <option value="Folk">Folk</option>
+                    <option value="Indie">Indie</option>
+                </select><br><br>
+
+
+
+
+                <label for="profession">Profession:</label>
+                <select id="professions" name="profession_category" value ="{{ user.musician.profession_category }}" required>
+                    <option value="singer">Singer</option>
+                    <option value="songwriter">Songwriter</option>
+                    <option value="producer">Producer</option>
+                    <option value="vocalist">Vocalist</option>
+                    <option value="band">Band</option>
+                    <option value="instrumentalist">Instrumentalist</option>
+                    <option value="sound-engineer">Sound Engineer</option>
+                    <option value="music-educator">Music Educator</option>
+                    <option value="folk-traditional">Folk and Traditional</option>
+                    <option value="dj">DJ</option>
+                    <option value="cover-band">Cover Band</option>
+                </select><br><br>
+
+
+
+                <label for="skill_level">Skill Level:</label><select id="skill_level" name="skill_level"
+                    value="{{ user.musician.skill_level }}" required>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                    <option value="Maestro">Maestro</option>
+
+                </select><br><br>
+
+                <label for="charge_rate">Charge Rate:(Ksh)</label><br>
+                <input type="number" id="charge_rate" name="charge_rate" placeholder="eg, 10 or 1000"
+                    value="{{ user.musician.charge_rate }}" required><br><br>
+
+                <label for="charge_rate_type">Charge Rate Type:</label><br>
+                <select id="charge_rate_type" name="charge_rate_type" value="{{ user.musician.charge_rate_type }}"
+                    required>
+                    <option value="session">Per Session</option>
+                    <option value="hour">Per Hour</option>
+
+                    Add more options as needed
+                </select><br><br>
+
+                <label for="samples">Sample video 1:</label><br>
+                <input type="file" id="samples" name="sample1" accept="video/*"><br><br>
+
+                <label for="samples">Sample Video 2 :</label><br>
+                <input type="file" id="samples" name="sample2" accept="video/*"><br><br>
+
+                <label for="experience">Years of Experience:</label><br>
+                <input type="number" id="experience" name="experience" placeholder="Examples: 1 or 1.5 or 59" min="0"
+                    max="80" step="0.1" value="{{ user.musician.experience }}"><br><br>
+
+
+            </div>
+
+            <button class="change-pass-btn" type="submit">Save</button>
+    </form>
+
+</div>
+
+
+
+
+
+<script src="{% static 'js/script.js' %}"></script>
+</div>
+{% endblock content %}

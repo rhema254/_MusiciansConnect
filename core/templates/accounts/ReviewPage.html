@@ -1,0 +1,68 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/ReviewPage.css' %}">
+    <title>Form Reviews</title>
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <h3>Rate your Musician</h3>
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="rating">
+                <input type="number" name="rating" value="1" min="1" max="5" hidden>
+                <i class='bx bx-star star' style="--i: 0;"></i>
+                <i class='bx bx-star star' style="--i: 1;"></i>
+                <i class='bx bx-star star' style="--i: 2;"></i>
+                <i class='bx bx-star star' style="--i: 3;"></i>
+                <i class='bx bx-star star' style="--i: 4;"></i>
+            </div>
+
+            <textarea name="opinion" cols="30" rows="5"
+                placeholder=" How was your experience with {{ successfulhire.musician.user.first_name }} {{ successfulhire.musician.user.last_name }}..."></textarea>
+
+            <div class="btn-group">
+                <button type="submit" class="btn submit">Submit</button>
+                <a href="{% url 'home' %}" class="btn cancel">Skip</a>
+            </div>
+        </form>
+    </div>
+    <script>
+        const allStar = document.querySelectorAll('.rating .star')
+        const ratingValue = document.querySelector('.rating input')
+
+        allStar.forEach((item, idx) => {
+            item.addEventListener('click', function () {
+                let click = 0
+                ratingValue.value = idx + 1
+
+                allStar.forEach(i => {
+                    i.classList.replace('bxs-star', 'bx-star')
+                    i.classList.remove('active')
+                })
+                for (let i = 0; i < allStar.length; i++) {
+                    if (i <= idx) {
+                        allStar[i].classList.replace('bx-star', 'bxs-star')
+                        allStar[i].classList.add('active')
+                    } else {
+                        allStar[i].style.setProperty('--i', click)
+                        click++
+                    }
+                }
+            })
+        })
+
+    </script>
+</body>
+
+</html>

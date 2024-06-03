@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} My Account {% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/AccountDetails.css' %}">
+{% endblock css %}
+
+{% block navbar %}
+{% endblock navbar %}
+
+{% block searchbar %}
+{% endblock searchbar %}
+
+{% block content %}
+<div id="prof-popup" class="prof-popup">
+    <div class="button">
+        <a href="{% url 'edit_client_profile' %}" type="button" class="gig-det-btn">Edit Profile</a>
+        <a href="{% url 'password_change' %}" class="gig-det-btn">Change Password</a>
+    </div>
+    <div class="popup-content">
+        <table class="user-info-table">
+            <tr>
+                <td>Date Joined:</td>
+                <td>{{ user.date_joined }}</td>
+            </tr>
+            <tr>
+                <td>Username:</td>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <td>First Name:</td>
+                <td>{{ user.first_name }}</td>
+            </tr>
+            <tr>
+                <td>Last Name:</td>
+                <td>{{ user.last_name }}</td>
+            </tr>
+            <tr>
+                <td>Primary Email:</td>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td>*********</td>
+            </tr>
+            <tr>
+                <td>Phone Number:</td>
+                <td>{{ user.client.phone }}</td>
+            </tr>
+            <tr>
+                <td>Client Type:</td>
+                <td>{{ user.client.client_type }}</td>
+            </tr>
+            <tr>
+                <td>Client Description:</td>
+                <td>{{ user.client.description }}</td>
+            </tr>
+            <tr>
+                <td>Preferred Genres:</td>
+                <td>{{ user.client.genres }}</td>
+            </tr>
+            <tr>
+                <td>Instagram Profile link:</td>
+                <td>{{ user.client.instagram }}</td>
+            </tr>
+            <tr>
+                <td>Facebook Profile link:</td>
+                <td>{{ user.client.facebook }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="buttons-div">
+        <button class="gig-det-btn" onclick="printDetails()"> Download my Information </button>
+
+        <button class="gig-det-btn" type="submit" onclick="confirmDelete()"> Delete my Account </button>
+    </div>
+</div>
+
+
+</form>
+
+</div>
+<button class=" popupbtn-close" onclick="hidePopup()"><i class="bx bx-x"></i></button>
+</div>
+
+<script>
+    function showPopup() {
+        document.getElementById("editpopup").style.display = "block";
+    }
+
+    function hidePopup() {
+        document.getElementById("editpopup").style.display = "none";
+    }
+
+
+    function printDetails() {
+        window.print();
+    }
+
+    function confirmDelete() {
+        if (confirm("Are you sure you want to delete your account? This action is irreversible.")) {
+            // If the user confirms, perform the deletion action here
+            // For example, you can redirect them to a delete endpoint or trigger an AJAX request
+            // window.location.href = "delete_account_endpoint";
+            alert("Your account has been deleted."); // For demonstration purpose only
+        } else {
+            // If the user cancels, do nothing or perform any necessary action
+            // For example, you can keep them on the same page
+        }
+    }
+
+</script>
+{% endblock content %}

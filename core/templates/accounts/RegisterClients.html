@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF_8">
+    <title> Welcome to MusiciansConnect! </title>
+
+
+    {% load static %}
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="{% static 'css/Register.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="wrapper">
+        <!---------------- Navigation Bar------------------------->
+        <nav class="nav">
+            <div class="nav-logo">
+                <p><span style="font-size: 40px;"> M</span>usicians<span style="font-size: 35px;">C</span>onnect</p>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="{% url 'landingpage' %}" class="link active">Home</a></li>
+                    <li><a href="{% url 'musicianspage' %}" class="link">Musicians</a></li>
+                    <li><a href="{% url 'gigspage' %}" class="link">Gigs</a></li>
+                    <li><a href="#" class="link">Services</a></li>
+                    <li><a href="#" class="link">About </a></li>
+                </ul>
+            </div>
+            <!-------------Js Function to switch up the Login and Sign up Pages on the login page--------------------->
+            <div class="nav-button">
+                <a href="{% url 'Login' %}"><button class="btn" id="loginBtn" onclick="GoTologin()"> Sign
+                        In</button></a>
+            </div>
+            <!---------------------------For small Screens: This is a Hamburger Menu button------------------------->
+            <div class="nav-menu-btn">
+                <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+            </div>
+        </nav>
+
+        <!-----------------------------Form Box---------------------------------->
+        <div class="form-box">
+
+
+            <!-----------registration form (General)---------->
+            <div class="register-container" id="register">
+                <div class="top">
+                    <header> Client Sign Up</header>
+                </div>
+                <div class="two-forms">
+                    <!--------------------registration form(Only)------------------------------>
+
+                    <form method="post" id="myForm">
+                        {% csrf_token %}
+                        <div class="input-box">
+                            <input type="email" class="input-field" placeholder="Email" name="email">
+                            <i class="bx bx-envelope"></i>
+                        </div>
+                        <div class="input-box">
+                            <input type="text" class="input-field" placeholder="First Name" name="fname" required
+                                minlength="2">
+                            <i class="bx bx-user"></i>
+                            <div id="fname-error" class="error-message"></div>
+                        </div>
+                        <div class="input-box">
+                            <input type="text" class="input-field" placeholder="Last Name" name="lname" required
+                                minlength="2">
+                            <i class="bx bx-user"></i>
+                            <div id="lname-error" class="error-message"></div>
+                        </div>
+                        <div class="input-box">
+                            <input type="text" class="input-field" placeholder="Username" name="uname" required
+                                minlength="6">
+                            <i class="bx bx-user"></i>
+                            <div id="uname-error" class="error-message"></div>
+                        </div>
+
+                        <div class="input-box">
+                            <input type="password" class="input-field" id="password" placeholder="Password" name="pass"
+                                required minlength="8">
+                            <i class="bx bx-key"></i>
+                            <div id="password-error" class="error-message"></div>
+                        </div>
+                        <div class="input-box">
+                            <input type="password" class="input-field" id="confirm_password"
+                                placeholder="Verify Password" name="pass2">
+                            <i class="bx bx-key"></i>
+                            <div id="passwordFeedback"></div>
+                            <div id="password-error" class="error-message"></div>
+                            <!-- Feedback message for password confirmation -->
+                        </div>
+                        <div class="input-box">
+                            <button type="submit" class="submit">Register</button>
+                        </div>
+
+                    </form>
+
+                    <div class="two-col">
+                        <div class="one">
+                            <input type="checkbox" id="register-check">
+                            <label for="register-check">Remember Me</label>
+                        </div>
+                        <div class="two">
+                            <label><a href="#"> Terms and Conditions </a></label>
+                        </div>
+                    </div>
+                    <div class="bottom">
+                        <span> Have an Account?<a href="#" onclick="GoTologin()"> Login</a></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!----------------Script for small screens------------------->
+    <script>
+        function myMenuFunction() {
+            var i = document.getElementById("navMenu");
+
+            if (i.className === "nav-menu") {
+
+                i.className += " responsive";
+            }
+            else {
+                i.className = "nav-menu";
+            }
+
+        }
+
+        function myFunction() {
+            var x = document.getElementById("my-Input");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+        //function to verify password1 and password2
+        document.getElementById('confirm_password').addEventListener('keyup', function () {
+            var password = document.getElementById('password').value;
+            var confirm_password = this.value;
+            var feedback = document.getElementById('passwordFeedback');
+            if (password === confirm_password) {
+                feedback.textContent = 'Passwords match';
+                feedback.style.color = 'green';
+            } else {
+                feedback.textContent = 'Passwords do not match';
+                feedback.style.color = 'red';
+            }
+        });
+
+    </script>
+    <script>
+        function validatePassword() {
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirm_password');
+            const emailInput = document.querySelector('input[name="email"]');
+            const firstNameInput = document.querySelector('input[name="fname"]');
+            const lastNameInput = document.querySelector('input[name="lname"]');
+            const usernameInput = document.querySelector('input[name="uname"]');
+            const passwordError = document.getElementById('password-error');
+            const passwordFeedback = document.getElementById('passwordFeedback');
+
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            const email = emailInput.value.toLowerCase();
+            const firstName = firstNameInput.value.toLowerCase();
+            const lastName = lastNameInput.value.toLowerCase();
+            const username = usernameInput.value.toLowerCase();
+
+            // Check password length
+            if (password.length < 8) {
+                
+                passwordError.textContent = 'Password must be at least 8 characters long.';
+                return false;
+            }
+
+            // Check for uppercase, lowercase, number, and special character
+            const hasUpperCase = /[A-Z]/.test(password);
+            const hasLowerCase = /[a-z]/.test(password);
+            const hasNumber = /\d/.test(password);
+            const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+            if (!hasUpperCase || !hasLowerCase || !hasNumber || !hasSpecialChar) {
+                
+                passwordError.textContent = 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.';
+                return false;
+            }
+
+            // Check if password contains email, first name, last name, or username
+            if (
+                password.includes(email) ||
+                password.includes(firstName) ||
+                password.includes(lastName) ||
+                password.includes(username)
+            ) {
+                
+                passwordError.textContent = 'Password cannot contain email, first name, last name, or username.';
+                return false;
+            }
+
+            // Check if passwords match
+            if (password !== confirmPassword) {
+                
+                passwordFeedback.textContent = 'Passwords do not match.';
+                return false;
+            }
+
+            passwordError.textContent = '';
+            passwordFeedback.textContent = '';
+            return true;
+        }
+
+        const form = document.getElementById('myForm');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm_password');
+
+        form.addEventListener('submit', function (event) {
+            if (!validatePassword()) {
+                event.preventDefault(); // Prevent form submission if password is invalid
+            }
+        });
+
+        passwordInput.addEventListener('input', validatePassword);
+        confirmPasswordInput.addEventListener('input', validatePassword);
+    </script>
+
+</body>
+
+</html>

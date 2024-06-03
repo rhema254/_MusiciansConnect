@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Payment page </title>
+    <link rel="stylesheet" href="{% static 'css/ServicesPage.css' %}">
+</head>
+
+
+<body>
+    <div class="wrapper">
+        <div class="background-blur"></div>
+            <div class="payment-container">
+                <div class="payment-div">
+                    <h3> Payment Details </h3>
+                    <form method="post" id="paymentForm">
+                        {% csrf_token %}
+
+                        <label for="phone">Enter Client's Safaricom Phone Number</label>
+                        <input type="tel" name="phone" id="phone" class="input-field" pattern="^(07\d{8}|1\d{9}|0\d{9})$"
+                            required>
+
+                        <button type="submit" class="pay-btn" disabled> Pay {{ successful_hire.gig.budget }} </button>
+                    </form>
+                </div>
+            <a href=""></a>    
+            </div>
+
+            
+
+    </div>
+
+    <script>
+        document.getElementById('paymentForm').addEventListener('input', function () {
+            const phoneInput = document.getElementById('phone');
+            const payButton = document.querySelector('.pay-btn');
+            const pattern = /^(07\d{8}|1\d{9}|0\d{9})$/;
+
+            if (pattern.test(phoneInput.value)) {
+                payButton.disabled = false;
+            } else {
+                payButton.disabled = true;
+            }
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<!-- Designined by CodingLab - youtube.com/codinglabyt -->
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <title> Booking Details </title>
+  <link rel="stylesheet" href="{% static 'css/FinaliseAgreement.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="title"> Contractual Agreement </div>
+
+
+    {% if user.client %}
+    <div class="content-to-print">
+      <div class="content">
+
+        <form method="post">
+          {% csrf_token %}
+          {% if message %}
+          <div class="messages" style="position: absolute; top: 20%; left: 20%; background-color: aquamarine; ">
+
+            {{ message.error }}
+            {{ message.info }}
+
+          </div>
+          {% endif %}
+
+
+          <div class="user-details">
+            <div class="input-box">
+              <span class="details">Musician Full Name:
+                {{ application.musician.user.first_name }} {{ application.musician.user.last_name }} </span>
+              <input type="text" name="musician_id" value="{{ application.musician.id }}" hidden>
+              <input type="text" name="application_id" value="{{ application.id }}" hidden>
+              <input type="text" name="gig_id" value="{{ application.gig.id }}" hidden>
+              <label type="label" required>
+            </div>
+            <div class="input-box">
+              <span class="details">Client Full Name:
+                {{ user.first_name }} {{ user.last_name }}</span>
+              <label type="label" required>
+            </div>
+            <div class="input-box">
+              <span class="details">Musician Email: <br> {{ application.musician.user.email }}</span>
+              <label type="label" required>
+            </div>
+            <div class="input-box">
+              <span class="details">Client Email: <br> {{ user.email }}</span>
+              <label value="" required>
+            </div>
+            <div class="input-box">
+              <span class="details">Musician Phone Number: <br> {{ application.musician.phone_number }}</span>
+              <label type="label" required>
+            </div>
+            <div class="input-box">
+              <span class="details">Client Phone Number: <br> {{ application.client.phone }}</span>
+              <label type="label">
+            </div>
+            <div class="input-box">
+              <span class="details"> Hiring Price:
+                {{ application.gig.budget }} </span>
+            </div>
+            <div class="input-box">
+              <span class="details">Payment Policy: <br> {{ application.gig.payment_policy }} </span>
+              <label required>
+            </div>
+            <div class="input-box">
+              <span class="details">Event Date: <br> {{ application.gig.event_date }}</span>
+              <label type="" value="" required>
+            </div>
+            <div class="input-box">
+              <span class="details">Event Venue: <br> {{ application.gig.location }}</span>
+              <label type="text" value="" required>
+            </div>
+            <div class="input-box">
+              <span class="details">Gig Title: <br> {{ application.gig.title }} </span>
+            </div>
+            <div class="input-box">
+              <span class="details">Signature:</span>
+              <input type="password" placeholder="Type your password here" name="signature" required>
+              <div class="message-info">{{ message.info }}</div>
+            </div>
+          </div>
+
+
+          <div class="button">
+            <form method="post">
+              <input type="hidden" name="applicationId" value="{{ application.id }}">
+              <input type="hidden" name="hire" value="True">
+              <input type="submit" value="Hire Musician">
+            </form>
+            <button id="print-to-pdf">Print to PDF</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+  {% endif %}
+</div>
+</div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const printToPdfButton = document.getElementById('print-to-pdf');
+
+      printToPdfButton.addEventListener('click', () => {
+        const doc = new jsPDF();
+        const contentToPrint= document.querySelector('.content-to-print');
+
+       
+      doc.html(contentToPrint, {
+        callback: function(doc) {
+          doc.save('contractual-agreement.pdf');
+        },
+        x: 10,
+        y: 10,
+        width: 190, //target width in the PDF document
+        windowWidth: 675 //width of content in the PDF
+      });
+    });
+  });
+  </script>
+
+
+</body>
+
+</html>
