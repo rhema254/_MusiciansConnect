@@ -1,0 +1,91 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
+
+* {
+  font-family: "Poppins", sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: url("../Resources/Background.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.payment-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #fff;
+  box-shadow: 0px 6px 16px -1px rgba(255, 255, 255, 0.3);
+  top: 20vh;
+  left: 60vh;
+  width: 30vw;
+  height: 50vh;
+  border-radius: 25px;
+  padding: 3%;
+  z-index: 1000;
+}
+
+.input-field {
+  font-size: 15px;
+  background: rgba(5, 202, 64, 0.719);
+  color: #ffffff;
+  height: 50px;
+  width: 100%;
+  padding: 0 10px 0 45px;
+  border: rgba(214, 64, 64, 0.9);
+  border-radius: 30px;
+  outline: none;
+  transition: 0.2s ease-in;
+}
+.input-field:hover,
+.input-field:focus {
+  background: rgba(5, 202, 64, 0.719);
+}
+.payment-div {
+  display: flex;
+  flex-direction: column;
+  padding: 2%;
+  justify-content: center;
+  align-items: center;
+}
+.pay-btn {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  background-color: rgba(5, 202, 64, 0.719);
+  color: #fff;
+  border-radius: 25px;
+  box-shadow: 0px 8px 16px 0px rgba(11, 66, 184, 0.3);
+  cursor: pointer;
+  font-size: 17px;
+  transition: ease-in-out 0.1s;
+  text-decoration: none;
+  padding: 2%;
+  margin-top: 10%;
+  margin-left: 25%;
+  border: none;
+}
+.pay-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.background-blur {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  z-index: 999;
+}
