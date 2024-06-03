@@ -1,0 +1,259 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} Profile {% endblock title %}</title>
+
+    {% block css %}
+    <!-- ===== ===== Custom Css ===== ===== -->
+    <link rel="stylesheet" href="{% static 'css/TrialDashboard1.css' %}">
+    <link rel="stylesheet" href="{% static 'css/TrialDashboard2.css' %}">
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    {% endblock css %}
+    <!-- ===== ===== Remix Font Icons Cdn ===== ===== -->
+    <link rel="stylesheet" href="fonts/remixicon.css">
+</head>
+
+<body>
+
+    {% if request.user.is_authenticated %}
+    <!-- ===== ===== Body Main-Background ===== ===== -->
+    <span class="main_bg"></span>
+
+
+    <!-- ===== ===== Main-Container ===== ===== -->
+    <div class="container">
+        {% block navbar %}
+        <!-- ===== ===== Header/Navbar ===== ===== -->
+        <header>
+            <div class="brandLogo">
+                {% if request.user.is_authenticated %}
+                <h1><span style="font-size: 40px;">M</span>usicians<span style="font-size: 35px">C</span>onnect</h1>
+                <div class="nav-menu" id="navMenu">
+                    <ul>
+                        <li><a href="{% url 'home' %}" class="link active">Home</a></li>
+                        <li><a href="{% url 'musicianspage' %}" class="link active">Musicians</a></li>
+
+                        <div class="gigs-dropdown">
+                            <li>
+                                <Gigs href="{% url 'gigspage' %}" class="link active">Gigs</a>
+                            </li>
+                            {% if request.user == 'Client' %}
+                            <div class="gigs-dropcont">
+                                <li><a href="{% url 'clientgigs' %}">My Gigs</a></li>
+                                <li><a href="{% url 'gigspage' %}">Available Gigs</a></li>
+                            </div>
+                            {% else %}
+                            <div class="gigs-dropcont">
+                                <li><a href="{% url 'gigspage' %}">Available Gigs</a></li>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </ul>
+                </div>
+            </div>
+
+
+
+            <div class="profile-container">
+
+                <a href="#Profile_Page" class="profilebtn" id="my-profile-link"> {{ request.user }}</a\>
+                    <div class="dropdown-content">
+                        {% if user.musician %}
+                        {% if musician.profile_picture %}
+                        <img src="{{ request.user.musician.profile_picture.url }}" class="profilepic"
+                            id="profile-picture"></img>
+                        {% else %}
+                        <img src="{% static 'Resources/default.jpg' %}" class="profilepic" id="profile-picture"></img>
+                        {% endif %}
+                        {% else %}
+
+                        {% if client.profile_picture %}
+                        <img src="{{ request.user.client.profile_picture.url }}" class="profilepic"
+                            id="profile-picture"></img>
+                        {% else %}
+                        <img src="{% static 'Resources/default.jpg' %}" class="profilepic" id="profile-picture"></img>
+                        {% endif %}
+
+                        {% endif %}
+
+
+                        <li><a href="{% url 'view_profile' musician.id %}">View Profile</a></li>
+                        {% if user.musician %}
+                        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        {% else %}
+                        <li><a href="{% url 'application_review' %}">Dashboard</a></li>
+                        {% endif %}
+                        <li><a href="#clientPage">My Transactions</a></li>
+                        <li><a href="{% url 'account_details' %}">Account Details</a></li>
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+
+                    </div>
+            </div>
+            {% else %}
+            <div class="nav-button">
+                <a class="btn" href="{% url 'landingpage' %}" style="color:white">Sign In</a>
+            </div>
+
+            {% endif %}
+        </header>
+        {% endblock navbar %}
+
+        <!-- ===== ===== User Main-Profile ===== ===== -->
+        <section class="userProfile card">
+            <div class="profile">
+                {% if musician.profile_picture %}
+                <figure><img src="{{ user.musician.profile_picture.url }}" alt="profile" width="250px" height="250px">
+                </figure>
+                {% else %}
+                <figure><img src="/media/images/default.jpg" alt="profile" width="250px" height="250px">
+                </figure>
+
+                {% endif %}
+            </div>
+        </section>
+
+        {% block sidebar %}
+        <!-- ===== ===== Work & Skills Section ===== ===== -->
+        <section class="work_skills card">
+
+            <!-- ===== ===== Work Contaienr ===== ===== -->
+            <div class="work">
+                <h1 class="heading">About </h1>
+                <div class="primary">
+                    <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+                    <span>Official Names</span>
+                    <p> {{ user.musician.phone_number }}<br> {{ user.email }}</p>
+                </div>
+
+                <div class="secondary">
+                    <h1>{{ user.username }}</h1>
+                    <span>Stage Name</span>
+                    <p>{{ user.musician.location }}<br> {{ user.musician.bio }}</p>
+                    <span>Stage Name</span>
+                    <div style="display: flex;;">
+                        <h3><i class='bx bxl-facebook' style="font-size: 30px;"></i><a
+                                href="{{ user.musician.facebook }}" style="text-decoration: none; color:black;"></a>
+                        </h3>
+                        <h3 style="text-align:justify;"><i class='bx bxl-instagram' style="font-size: 30px;"></i><a
+                                href="{{ user.musician.instagram }}" style="text-decoration: none; color:black;"></a>
+                        </h3>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ===== ===== Skills Contaienr ===== ===== -->
+            <div class="skills">
+                <h1 class="heading">Preferred Genres</h1>
+                <ul>
+                    {% for genre in genres %}
+                    <li style="--i:0">{{ genre }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+        {% endblock sidebar %}
+
+        {% block user-analytics %}
+        <!-- ===== ===== User Details Sections ===== ===== -->
+        <section class="userDetails card">
+
+            <div class="userName">
+                <h1 class="name">{{ user.first_name }} {{ user.last_name }}</h1>
+                <div class="map">
+                    <i class="ri-map-pin-fill ri"></i>
+                    <span>{{ user.musician.location }}</span>
+                </div>
+                <p>{{ user.musician.title }}</p>
+            </div>
+            <div class="analytics">
+                <div class="rank">
+                    <h1 class="heading">Successful hires:</h1>
+                    <span>{{ total_gigs }}</span>
+                    <div class="rating">
+                        <i class="ri-star-fill rate underrate"></i>
+                    </div>
+                </div>
+                <div class="rank" style="height: 10%;">
+                    <h1 class="heading">Rating: {{ user.musician.rating }} </h1>
+                    <span>{{ total_gigs }}</span>
+                    <div class="rating">
+                        <i class="ri-star-fill rate underrate"></i>
+                    </div>
+                </div>
+                <div class="rank">
+                    <h1 class="heading">Experience:
+                        {{ user.musician.experience }} </h1>
+                    <div class="rating">
+                        <i class="ri-star-fill rate underrate"></i>
+                    </div>
+                </div>
+                <div class="rank">
+                    <h1 class="heading">{{ user.musician. }} </h1>
+                    <span>{{ total_gigs }}</span>
+                    <div class="rating">
+                        <i class="ri-star-fill rate underrate"></i>
+                    </div>
+                </div>
+            </div>
+            {% if request.user == 'Client' %}
+            <div class="btns">
+                <ul>
+                    <li class="sendMsg active">
+                        <i class="ri-chat-4-fill ri"></i>
+                        <a href="#">Hire Musician(add popup)</a>
+                    </li>
+
+                    <li class="sendMsg active">
+                        <a href="#">Report User</a>
+                    </li>
+                </ul>
+            </div>
+            {% elif request.user %}
+            <div class="btns">
+                <ul>
+                    <li class="sendMsg active">
+                        <i class="ri-chat-4-fill ri"></i>
+                        <a href="{% url 'edit_profile' %}">Edit Profile</a>
+                    </li>
+
+                    <li class="sendMsg active">
+                        <a href="#">Download my Data</a>
+                    </li>
+                </ul>
+            </div>
+            {% endif %}
+        </section>
+        {% endblock user-analytics %}
+
+        {% block content %}
+        <!-- ===== ===== Timeline & About Sections ===== ===== -->
+
+        {% endblock content %}
+    </div>
+    {% endif %}
+
+    <script>
+        function showPopup() {
+            document.getElementById("jobs-list").style.display = "block";
+        }
+
+        function hidePopup() {
+            document.getElementById("jobs-list").style.display = "none";
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
