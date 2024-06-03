@@ -1,0 +1,81 @@
+{% extends 'dashboard/AdminDashboard.html' %}
+
+{% load static %}
+
+
+{% block page %}
+
+<a href="{% url 'admin_dashboard' %}"> Admin Dashboard </a>
+</li>
+<li><i class='bx bx-chevron-right'></i></li>
+<li>
+<a class="active" href="{% url 'applications' %}">Applications</a>
+{% endblock page %}
+
+
+{% block content %}
+
+    <div class="table-data">
+        <div class="order">
+          <div class="head">
+            <h3>Applications In MusiciansConnect </h3>
+            <input type="search" placeholder="Search..." id="search-input">
+            <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+            <button id="filter-btn" type="submit" class="search-btn"><i class='bx bx-filter'></i></button>
+          </div>
+          <div id="filters" style="display: none;">
+            <label for="userIdFilter">User ID:</label>
+            <input type="text" id="userIdFilter" placeholder="Enter user ID">
+
+            <label for="usernameFilter">Username:</label>
+            <input type="text" id="usernameFilter" placeholder="Enter username">
+
+            <label for="emailFilter">Email:</label>
+            <input type="text" id="emailFilter" placeholder="Enter email">
+
+            <label for="phoneNumberFilter">Phone Number:</label>
+            <input type="text" id="phoneNumberFilter" placeholder="Enter phone number">
+
+            <label for="dateRangeFilter">Date Joined:</label>
+            <input type="date" id="startDateFilter">
+            <input type="date" id="endDateFilter">
+
+            <button id="applyFiltersBtn">Apply Filters</button>
+            <button id="resetFiltersBtn">Reset Filters</button>
+          </div>
+          <!-- Table  -->
+          <table id="user-table">
+            <!-- Table Headers.  -->
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Client</th>
+                <th>Gig Id</th>
+                <th>Gig Genre</th>
+                <th>Event Date</th>
+                <th> Wait Time</th>
+                <th>Status</th>
+                <th>Date Created</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user_role in user_roles %}
+              <li>
+                <tr>
+                  <td>{{ user_role.user.id }}</td>
+                  <td>{{ user_role.user.first_name }}</td>
+                  <td>{{ user_role.user.last_name }}</td>
+                  <td>{{ user_role.user.username }}</td>
+                  <td>{{ user_role.user.email }}</td>
+                  <td>{{ user_role.phone_number }}</td>
+                  <td>{{ user_role.role }}</td>
+                  <td>{{ user_role.user.date_joined }}</td>
+                </tr>
+              </li>
+              {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+
+    {% endblock content %}
