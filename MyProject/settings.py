@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
+import dj_database_url
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -94,14 +95,7 @@ WSGI_APPLICATION = 'MyProject.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'musicians_connect',
-        'USER': 'root',
-        'PASSWORD': '@qwerty123#',
-        'HOST': 'localhost',  # Or the IP address of your MySQL server
-        'PORT': '3306',  # Default MySQL port
-    }
+     'default': dj_database_url.config(default=os.environ.get('JAWSDB_URL'))
 }
 
 
