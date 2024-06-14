@@ -9,7 +9,7 @@ urlpatterns = [
     path("baseprofiles/", baseprofiles, name="baseprof"),
 
 
-    path(" ", LandingPage, name="landingpage"),
+    path(" /", LandingPage, name="landingpage"),
     path("aboutus/", about_us, name="AboutUs"),
     path("restricted_page/", restricted_page, name="restricted_page"),
     ####
