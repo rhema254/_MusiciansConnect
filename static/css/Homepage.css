@@ -563,3 +563,79 @@ ul li a:hover {
 
 
 /*  END OF NOTIFICATION ICON */
+
+
+
+@media (max-width: 768px) {
+  .nav {
+    height: 80px;
+    padding: 15px;
+    width: 100%;
+  }
+  .nav-menu li {
+    font-size: 16px;
+    margin: 0 20px;
+  }
+  .profile-container {
+    font-size: 16px;
+  }
+  .search_bar {
+    width: 80%;
+  }
+  .bx-search,
+  .bx-filter {
+    font-size: 30px;
+    right: 50px;
+  }
+  .gigs-dropcont {
+    width: 20%;
+    margin-right: 10px;
+  }
+  .icon-button {
+    width: 50px;
+    height: 50px;
+  }
+  .icon-button__badge {
+    top: -3px;
+    right: -6px;
+    font-size: 12px;
+  }
+  
+}
+
+@media (max-width: 500px) {
+  .nav {
+    height: 60px;
+    padding: 10px;
+    width: 100%;
+  }
+  .nav-menu li {
+    font-size: 14px;
+    margin: 0 15px;
+  }
+  .profile-container {
+    font-size: 14px;
+  }
+  .search_bar {
+    width: 90%;
+  }
+  .bx-search,
+  .bx-filter {
+    font-size: 25px;
+    right: 40px;
+  }
+  .gigs-dropcont {
+    width: 25%;
+    margin-right: 5px;
+  }
+  .icon-button {
+    width: 40px;
+    height: 40px;
+  }
+  .icon-button__badge {
+    top: -2px;
+    right: -4px;
+    font-size: 10px;
+  }
+}
+

@@ -8,28 +8,76 @@
     <link rel="stylesheet" href="{% static 'css/AboutUs.css' %}">
 </head>
 <body>
-    
-       <nav>
-            <ul>
-                <li><a href="{% url 'AboutUs' %}">MusiciansConnect</a></li>
-                <li><a href="{% url 'landingpage' %}">Home</a></li>
-                <li><a href="{% url 'servicespage' %}">Services</a></li>
-                <li><a href="{% url 'AboutUs' %}">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'AboutUs' %}">MusiciansConnect</a></li>
+            <li><a href="{% url 'landingpage' %}">Home</a></li>
+            <li><a href="{% url 'servicespage' %}">Services</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+        </ul>
+    </nav>
 
     <main>
-        <section class="about">
-            <h2>About Us</h2>
-            <p>Welcome to MusiciansConnect, the ultimate platform for connecting musicians and clients! Our mission is to bridge the gap between talented artists and those seeking their services.</p>
-            <p>Whether you're a musician looking to showcase your skills and find new opportunities or a client searching for the perfect performer for your event, MusiciansConnect has you covered.</p>
-            <p>Join our vibrant community today and unlock endless possibilities in the world of music!</p>
-        </section>
+        <div class="tabs">
+            <button class="tablinks" onclick="openTab(event, 'AboutUs')">About Us</button>
+            <button class="tablinks" onclick="openTab(event, 'HowItWorks')">How It Works</button>
+        </div>
+
+        <div id="AboutUs" class="tabcontent">
+            <section class="about">
+                <h2>About Us</h2>
+                <p>Welcome to MusiciansConnect, the ultimate platform for connecting musicians and clients! Our mission is to bridge the gap between talented artists and those seeking their services.</p>
+                <p>Whether you're a musician looking to showcase your skills and find new opportunities or a client searching for the perfect performer for your event, MusiciansConnect has you covered.</p>
+                <p>Join our vibrant community today and unlock endless possibilities in the world of music!</p>
+            </section>
+        </div>
+
+        <div id="HowItWorks" class="tabcontent">
+            <section class="how-it-works">
+                <h2>How It Works</h2>
+                <ol>
+                    <li>A user signs up either as a Client or as a Musician.</li>
+                    <li>If a client, the client creates an account, then updates their profile. The platform serves the client in two ways:
+                        <ul>
+                            <li>They can create a job(s) and different musicians can apply for the gigs. The client then chooses the one whom he feels suits his gig style best.</li>
+                            <li>The client can scroll through the musicians' page and find a musician he wants to hire and send a booking request on the musician's page.</li>
+                        </ul>
+                    </li>
+                    <li>If a Musician, the musician creates an account and updates their profile. This is very important for a musician as this is very crucial when a client is viewing their profile. Make sure to add two sample videos of your works. Also, attach your social media links to enhance your social media presence and allow the clients to engage with your online persona maximally as this will increase your chances of landing that gig!</li>
+                    <li>
+                        <ul>
+                            <li>If a client books a musician directly without posting a job: the musician's rate applies during payment.</li>
+                            <li>If a musician applies for a gig, the pay indicated on the job applies during payment.</li>
+                        </ul>
+                    </li>
+                    <li>M-Pesa Express has been integrated into the platform. At the moment, the payment system is under maintenance. To simulate the payment process, the system will generate an STK Push and you (The payer/client) will receive an STK Prompt on your mobile phone requiring you to enter your pin. The system does not verify any payments made but simulates the payment process. PS: DO NOT MAKE ANY PAYMENTS!! The payment gateway system is still experimental and I, RHEMA MUTETHIA, the developer, do not receive any payments you make. All payments go to the M-pesa sandbox account and in case you make any payments you should be refunded. DO NOT MAKE ANY PAYMENTS!!!
+                    </li>
+                    <li>After payment, clients have the option of rating their experience with the musician.</li>
+                </ol>
+            </section>
+        </div>
     </main>
 
     <footer>
         <p>&copy; 2024 MusiciansConnect. All rights reserved.</p>
     </footer>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        // Set the default tab to be open
+        document.getElementsByClassName("tablinks")[0].click();
+    </script>
 </body>
 </html>

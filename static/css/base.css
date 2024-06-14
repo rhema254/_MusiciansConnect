@@ -447,7 +447,7 @@ ul li a:hover {
   z-index: 10;
   margin: var(--img-gap) 0;
   width: 5vw;
-  height: 15vh;
+  height: 2%;
   cursor: pointer;
   border-radius: 50px;
   font-size: 7.5rem;
@@ -516,12 +516,92 @@ ul li a:hover {
 
 @media (max-width: 1000px) {
   .slider {
-    --items-per-screen: 3;
+    --items-per-screen: 4;
   }
 }
 
 @media (max-width: 500px) {
   .slider {
-    --items-per-screen: 2;
+    --items-per-screen: 4;
+  }
+}
+
+/* Mobile Devices */
+@media (max-width: 767px) {
+  footer {
+    padding: 20px 10px;
+    margin-top: 20%;
+    bottom: 0;
+  }
+
+  .container {
+    width: 100%;
+  }
+
+  .row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .col-md-1,
+  .col-md-2,
+  .col-md-3 {
+    flex: auto;
+    text-align: center;
+  }
+
+  .logo {
+    max-width: 80px;
+  }
+
+  .social-media {
+    display: flex;
+    justify-content: center;
+  }
+
+  .social-media li {
+    margin: 0 10px;
+  }
+
+  .bxl-facebook-circle,
+  .bxl-instagram {
+    font-size: 40px;
+  }
+}
+
+/* Tablet Devices */
+@media (min-width: 768px) and (max-width: 1023px) {
+  footer {
+    padding: 20px;
+    margin-top: 15%;
+
+  }
+
+  .container {
+    width: 100%;
+  }
+
+  .row {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .col-md-1,
+  .col-md-2,
+  .col-md-3 {
+    flex: 0 0 48%;
+  }
+
+  .logo {
+    max-width: 90px;
+  }
+
+  .social-media li {
+    margin-right: 15px;
+  }
+
+  .bxl-facebook-circle,
+  .bxl-instagram {
+    font-size: 45px;
   }
 }

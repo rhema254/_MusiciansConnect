@@ -76,6 +76,13 @@ def account_setup(request):
     return render(request, "accounts/AccountSetup2.html", context)
 
 def accountdetails(request):
+    if request.method == "POST":
+        deletereq = request.POST.get('account_delete')
+        if deletereq == "True":
+            user = request.user
+            user.delete()
+            return redirect("landingpage")
+
     return render(request, "accounts/AccountDetails.html")
 
 def restricted_page(request):
@@ -372,7 +379,8 @@ def user_logout(request):
 
 
 def home(request):
-    return render(request, "accounts/Homepage.html")
+    available_jobs = Gig.objects.filter(status = 'Open')
+    return render(request, "accounts/Homepage.html", { "available_jobs": available_jobs})
 
 
 def musicianspage(request):

@@ -27,12 +27,12 @@ SECRET_KEY = 'django-insecure-up*660@vg0a3oj*%b)r5rl)3!_^0vgbioi6!s%m13_nc*-54bi
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','7dd4-102-0-3-110.ngrok-free.app']
+ALLOWED_HOSTS = ['127.0.0.1','79ce-102-0-3-110.ngrok-free.app']
 
-NGROK_ADDRESS = 'https://7dd4-102-0-3-110.ngrok-free.app'
+NGROK_ADDRESS = ' https://79ce-102-0-3-110.ngrok-free.app'
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://7dd4-102-0-3-110.ngrok-free.app",
+    "https://79ce-102-0-3-110.ngrok-free.app",
     # Add other trusted origins if needed
 ]
 
@@ -41,6 +41,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 INSTALLED_APPS = [
     'jazzmin',
+
 
     'django.contrib.admin',
     'django.contrib.auth',

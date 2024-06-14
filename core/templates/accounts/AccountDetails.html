@@ -75,8 +75,10 @@
 
     <div class="buttons-div">
         <button class="gig-det-btn" onclick="printDetails()"> Download my Information </button>
-
-        <button class="gig-det-btn" type="submit" onclick="confirmDelete()"> Delete my Account </button>
+        <form action="" method="post">
+            {% csrf_token %}
+            <button class="gig-det-btn" type="submit" name="account_delete" value="True" onclick="confirmDelete()"> Delete my Account </button>
+        </form>
     </div>
 </div>
 
