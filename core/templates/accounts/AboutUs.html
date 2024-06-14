@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,14 +9,15 @@
     <link rel="stylesheet" href="{% static 'css/AboutUs.css' %}">
 </head>
 <body>
-    <nav>
+    
+       <nav>
         <ul>
-            <li><a href="{% url 'AboutUs' %}">MusiciansConnect</a></li>
-            <li><a href="{% url 'landingpage' %}">Home</a></li>
-            <li><a href="{% url 'servicespage' %}">Services</a></li>
-            <li><a href="{% url 'contact' %}">Contact</a></li>
+            <li><a href="{% url 'landingpage' %}">MusiciansConnect</a></li>
+            <li><a href="{% url 'home' %}">Homepage</a></li>
+            <li><a href="{% url 'register' %}">Register Today</a></li>
         </ul>
-    </nav>
+        </nav>
+    </header>
 
     <main>
         <div class="tabs">

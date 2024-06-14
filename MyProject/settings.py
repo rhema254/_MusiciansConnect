@@ -27,14 +27,11 @@ SECRET_KEY = 'django-insecure-up*660@vg0a3oj*%b)r5rl)3!_^0vgbioi6!s%m13_nc*-54bi
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','79ce-102-0-3-110.ngrok-free.app']
+ALLOWED_HOSTS = ['*']
 
-NGROK_ADDRESS = ' https://79ce-102-0-3-110.ngrok-free.app'
+NGROK_ADDRESS = ''
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://79ce-102-0-3-110.ngrok-free.app",
-    # Add other trusted origins if needed
-]
+CSRF_TRUSTED_ORIGINS = []
 
 
 # Application definition
@@ -96,9 +93,9 @@ WSGI_APPLICATION = 'MyProject.wsgi.application'
 DATABASES = {
     'default': {
          'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'musicians_connectproject',
+        'NAME': 'musicians_connect',
         'USER': 'root',
-        'PASSWORD': '@qwerty#',
+        'PASSWORD': '@qwerty123#',
         'HOST': 'localhost',  # Or the IP address of your MySQL server
         'PORT': '3306',  # Default MySQL port
     }
@@ -138,6 +135,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
+
+# Add this line
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
