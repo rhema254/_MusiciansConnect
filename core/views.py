@@ -813,7 +813,7 @@ def search_musicians(request):
 def services(request, successfulhire_Id):
     
     ngrok_address = settings.NGROK_ADDRESS  # Get the ngrok address from Django settings
-    callback_url = 'https://2fd5-102-0-3-110.ngrok-free.app/daraja/call_back_url'
+    callback_url = ngrok_address
     
     
  

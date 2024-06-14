@@ -25,13 +25,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-up*660@vg0a3oj*%b)r5rl)3!_^0vgbioi6!s%m13_nc*-54bi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://musiciansconnect-7f13a228269e.herokuapp.com', '127.0.0.1', 'localhost']
 
-NGROK_ADDRESS = ''
+NGROK_ADDRESS = 'https://musiciansconnect-7f13a228269e.herokuapp.com/daraja/call_back_url'
 
-CSRF_TRUSTED_ORIGINS = []
+CSRF_TRUSTED_ORIGINS = [
+    "https://musiciansconnect-7f13a228269e.herokuapp.com"
+]
 
 
 # Application definition
@@ -55,6 +57,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
