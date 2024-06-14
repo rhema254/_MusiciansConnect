@@ -25,13 +25,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-up*660@vg0a3oj*%b)r5rl)3!_^0vgbioi6!s%m13_nc*-54bi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["54.163.14.85", "0.0.0.0"]
+ALLOWED_HOSTS = ['*']
 
 NGROK_ADDRESS = 'http://54.163.14.85'
 
-CSRF_TRUSTED_ORIGINS = [ "https://7dd4-102-0-3-110.ngrok-free.app","https://54.163.14.85","http://54.163.14.85","https://ec2-54-163-14-85.compute-1.amazonaws.com"]
+CSRF_TRUSTED_ORIGINS = [ "https://7dd4-102-0-3-110.ngrok-free.app",
+    "https://54.163.14.85",
+    "http://54.163.14.85",
+    "https://ec2-54-163-14-85.compute-1.amazonaws.com"]
 
 
 # Application definition
@@ -134,6 +137,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
+
+# Add this line
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
