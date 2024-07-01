@@ -97,10 +97,10 @@ WSGI_APPLICATION = 'MyProject.wsgi.application'
 DATABASES = {
     'default': {
          'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'musiciansconnect',
-        'USER': 'rhema',
-        'PASSWORD': 'Testing123#',
-        'HOST': 'musiciansconnect.cr0a0wwaw0og.us-east-1.rds.amazonaws.com',  # Or the IP address of your MySQL server
+        'NAME': 'alb2tlq8asjsmtga',
+        'USER': 'eia2szgqnk8suzom',
+        'PASSWORD': '	c3kpn4c61jsubmvm',
+        'HOST': 'q0h7yf5pynynaq54.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',  # Or the IP address of your MySQL server
         'PORT': '3306',  # Default MySQL port
     }
 }
