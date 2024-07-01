@@ -95,7 +95,14 @@ WSGI_APPLICATION = 'MyProject.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-     'default': dj_database_url.config(default=os.environ.get('JAWSDB_URL'))
+    'default': {
+         'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'musiciansconnect',
+        'USER': 'root',
+        'PASSWORD': 'Testing123#',
+        'HOST': 'musiciansconnect.cr0a0wwaw0og.us-east-1.rds.amazonaws.com',  # Or the IP address of your MySQL server
+        'PORT': '3306',  # Default MySQL port
+    }
 }
 
 
@@ -134,7 +141,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 # Add this line
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
