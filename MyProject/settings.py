@@ -30,7 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['musiciansconnect-7f13a228269e.herokuapp.com', '127.0.0.1', 'localhost']
 
-NGROK_ADDRESS = 'https://musiciansconnect-7f13a228269e.herokuapp.com/daraja/call_back_url'
+CALLBACK_URL = 'https://musiciansconnect-7f13a228269e.herokuapp.com/daraja/call_back_url'
 
 CSRF_TRUSTED_ORIGINS = [
     "https://musiciansconnect-7f13a228269e.herokuapp.com"

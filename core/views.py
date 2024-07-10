@@ -812,10 +812,9 @@ def search_musicians(request):
 @client_required
 def services(request, successfulhire_Id):
     
-    ngrok_address = settings.NGROK_ADDRESS  # Get the ngrok address from Django settings
-    callback_url = ngrok_address
-    
-    
+    callback = settings.CALLBACK_URL  # Get the ngrok address from Django settings
+    callback_url = callback
+       
  
     if request.method == 'POST':
         successfulhire = SuccessfulHire.objects.get(id=successfulhire_Id)
@@ -937,8 +936,7 @@ def review_rating(request, successfulhire_id):
 
 
 def call_back_url(request):
-        
-    
+           
     if request.method == 'POST':
         results = MpesaClient().parse_stk_result(request.body)
         result_code = results.get('ResultCode')
@@ -951,7 +949,7 @@ def call_back_url(request):
     else:
         return HttpResponse("Invalid request method", status=405)
 
-
+    
 # def initiate_payment(request):
 #     # M-Pesa API credentials
 #     consumer_key = ''
