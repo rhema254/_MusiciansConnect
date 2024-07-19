@@ -849,6 +849,9 @@ def services(request, successfulhire_Id):
             messages.error(request, 'accounts/ServicesPage.html', {'error_message': error_message})
 
     return render(request, 'accounts/ServicesPage.html')
+
+
+    
 @client_required
 def successmessage(request, successfulhire_Id):
 
