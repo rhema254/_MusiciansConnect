@@ -28,11 +28,12 @@ SECRET_KEY = 'django-insecure-up*660@vg0a3oj*%b)r5rl)3!_^0vgbioi6!s%m13_nc*-54bi
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['musiciansconnect-7f13a228269e.herokuapp.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['musiciansconnect-7f13a228269e.herokuapp.com', '127.0.0.1', 'localhost', 'www.musiciansconnect.live']
 
 CALLBACK_URL = 'https://musiciansconnect-7f13a228269e.herokuapp.com/daraja/call_back_url'
 
 CSRF_TRUSTED_ORIGINS = [
+    "www.musiciansconnect.live"
     "https://musiciansconnect-7f13a228269e.herokuapp.com"
 ]
 
