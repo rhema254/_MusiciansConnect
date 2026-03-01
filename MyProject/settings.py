@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
-import dj_database_url
+import pymysql
+pymysql.install_as_MySQLdb()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,16 +29,16 @@ SECRET_KEY = 'django-insecure-up*660@vg0a3oj*%b)r5rl)3!_^0vgbioi6!s%m13_nc*-54bi
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-ALLOWED_HOSTS = ['musiciansconnect-7f13a228269e.herokuapp.com', '127.0.0.1', 'localhost', 'www.musiciansconnect.live']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
-CALLBACK_URL = 'https://musiciansconnect-7f13a228269e.herokuapp.com/daraja/call_back_url'
+CALLBACK_URL = 'http://localhost:7000/daraja/call_back_url'
 
 CSRF_TRUSTED_ORIGINS = [
-    "www.musiciansconnect.live"
-    "https://musiciansconnect-7f13a228269e.herokuapp.com"
+    "http://localhost:7000"
+    "http://127.0.0.1:7000"
 ]
 
 
@@ -101,10 +102,10 @@ WSGI_APPLICATION = 'MyProject.wsgi.application'
 DATABASES = {
     'default': {
          'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'alb2tlq8asjsmtga',
-        'USER': 'eia2szgqnk8suzom',
-        'PASSWORD': 'c3kpn4c61jsubmvm',
-        'HOST': 'q0h7yf5pynynaq54.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',  # Or the IP address of your MySQL server
+        'NAME': 'musiciansconnect',
+        'USER': 'rhema',
+        'PASSWORD': 'qwerty123',
+        'HOST': 'localhost',  # Or the IP address of your MySQL server
         'PORT': '3306',  # Default MySQL port
     }
 }
@@ -169,9 +170,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'rhematesh@gmail.com'
-EMAIL_HOST_PASSWORD = 'lfgw uloo ppai syfv'
-DEFAULT_FROM_EMAIL ='rhematesh@gmail.com'
+EMAIL_HOST_USER = '..@gmail.com'
+EMAIL_HOST_PASSWORD = '..v'
+DEFAULT_FROM_EMAIL ='..@gmail.com'
 
 
 
@@ -182,8 +183,8 @@ MPESA_ENVIRONMENT = 'sandbox'
 
 # Credentials for the daraja app
 
-MPESA_CONSUMER_KEY = 'pBoHZ71rX4eI9QZvl8EKkkCOGGGiQtIdkqM7Gtb3EEXU2okG'
-MPESA_CONSUMER_SECRET = '6gEO79ryG1dAyimmZjdXumgm0BSdcGMMTcfnh5jRxzvj98RZfWGKk9kd20XAMENi'
+MPESA_CONSUMER_KEY = ''
+MPESA_CONSUMER_SECRET = ''
 
 #Shortcode to use for transactions. For sandbox  use the Shortcode 1 provided on test credentials page
 
@@ -206,12 +207,12 @@ MPESA_SHORTCODE_TYPE = 'paybill'
 # Sandbox passkey is available on test credentials page
 # Production passkey is sent via email once you go live
 
-MPESA_PASSKEY = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
+MPESA_PASSKEY = ''
 
 # Username for initiator (to be used in B2C, B2B, AccountBalance and TransactionStatusQuery Transactions)
 
-MPESA_INITIATOR_USERNAME = 'testapi'
+MPESA_INITIATOR_USERNAME = ''
 
 # Plaintext password for initiator (to be used in B2C, B2B, AccountBalance and TransactionStatusQuery Transactions)
 
-MPESA_INITIATOR_SECURITY_CREDENTIAL = 'Safaricom999!*!'
+MPESA_INITIATOR_SECURITY_CREDENTIAL = ''
