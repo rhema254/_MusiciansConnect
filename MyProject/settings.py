@@ -103,8 +103,8 @@ DATABASES = {
     'default': {
          'ENGINE': 'django.db.backends.mysql',
         'NAME': 'musiciansconnect',
-        'USER': 'rhema',
-        'PASSWORD': 'qwerty123',
+        'USER': '',
+        'PASSWORD': '',
         'HOST': 'localhost',  # Or the IP address of your MySQL server
         'PORT': '3306',  # Default MySQL port
     }
